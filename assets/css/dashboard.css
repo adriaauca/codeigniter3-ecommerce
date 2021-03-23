@@ -1,0 +1,81 @@
+.description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-layer {
+    display: inline-flex;
+}
+
+.old {
+    color: #989898;
+    text-decoration: line-through;
+    display: inline-block;
+    font-size: 1.00rem;
+}
+
+.discount {
+    margin: 0 4px;
+    display: table;
+    color: #fff;
+    background-color: #f35a5a;
+    font-size: .8462rem;
+    font-weight: 400;
+    border-radius: 12px;
+    padding: 4px 8px;
+    margin-top: 5px;
+}
+
+.actual {
+    font-size: 1.33rem;
+    font-weight: 700;
+    display: inline-block;
+    color: #444;
+}
+
+.title {
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    font-weight: bold;
+    overflow: hidden;
+    max-height: 3.8rem;
+    margin: 16px auto;
+    display: block;
+    position: relative;
+    text-transform: none;
+}
+
+.promo-label {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.promocion {
+    font-size: .8462rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    border-radius: 12px;
+    background-color: #fb8b40;
+    padding: 4px 8px;
+    color: #fff;
+}
+
+.product-img {
+    width: 100%;
+    height: 225px;
+}
+
+.card {
+    border: 1px solid white !important;
+    text-decoration: none;
+    color: black;
+}
+
+.card:hover {
+    border: 1px solid rgba(0, 0, 0, .125) !important;
+    color: black;
+}
