@@ -13,7 +13,7 @@ class Products_model extends CI_Model
     public function show($name)
 	{
 		$this->db->where('name', $name);
-        $this->db->where('status', 1);
+        // $this->db->where('status', 1);
         return $this->db->get('products')->row();
 	}
 

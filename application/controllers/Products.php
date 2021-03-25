@@ -10,13 +10,14 @@ class Products extends BaseController {
 	{
 		parent::__construct();
 
-		$this->global['pageTitle'] = 'Store';
-
-		$this->isLoggedIn();
-
 		$this->load->library('form_validation');
 		
 		$this->load->model('products_model');
+
+		// if (!$this->hasPermision())
+		// {
+		// 	redirect('');
+		// }
 	}
 
 
@@ -31,10 +32,11 @@ class Products extends BaseController {
 	{
 		$data = [];
 
-		$this->global['nav_links'] = array('Products', 'Create');
+		$this->global['nav_links'] = array('Products');
 
 		$this->load->model('departments_model');
 		$data['all_departments'] = $this->departments_model->get_departments();
+		$data['use'] = 'create';
 
 		$this->loadViews("product", $this->global, $data, NULL);
 	}
@@ -42,16 +44,29 @@ class Products extends BaseController {
 
 	public function store()
 	{
+		$status = 0;
+		$image = "";
+
 		$this->form_validation->set_rules('name', 'Name', 'trim|required');
 		$this->form_validation->set_rules('description', 'Description', 'trim|required');
 		$this->form_validation->set_rules('details', 'Details', 'trim|required');
 		$this->form_validation->set_rules('model', 'Model', 'trim|required');
 		$this->form_validation->set_rules('color', 'Color', 'trim|required');
-		$this->form_validation->set_rules('image', 'Image', 'trim|required');
 		$this->form_validation->set_rules('quantity', 'Quantity', 'trim|required|is_natural');
 		$this->form_validation->set_rules('price', 'Price', 'trim|required');
-		$this->form_validation->set_rules('status', 'Status', 'trim|required|is_natural|in_list[0,1]');
-		$this->form_validation->set_rules('fk_department_id', 'Password', 'trim|required|is_natural');
+
+		if (isset($_POST['image']))
+		{
+			$image = $this->input->post('image');
+		}
+
+		if (isset($_POST['status']))
+		{
+			$this->form_validation->set_rules('status', 'Status', 'trim|required|in_list[true]');
+			$status = 1;
+		}
+		
+		$this->form_validation->set_rules('fk_department_id', 'Department', 'trim|required|is_natural');
 
 		if($this->form_validation->run())
 		{
@@ -61,13 +76,13 @@ class Products extends BaseController {
 				'details'			=>	$this->input->post('details'),
 				'model'				=>	$this->input->post('model'),
 				'color'				=>	$this->input->post('color'),
-				'image'				=>	$this->input->post('image'),
+				'image'				=>	$image,
 				'quantity'			=>	$this->input->post('quantity'),
 				'price'				=>	$this->input->post('price'),
 				'last_price'		=>	0,
 				'discount'			=>	0,
 				'discount_status'	=>	0,
-				'status'			=>	$this->input->post('status'),
+				'status'			=>	$status,
 				'fk_department_id'	=>	$this->input->post('fk_department_id'),
 			);
 
@@ -111,6 +126,16 @@ class Products extends BaseController {
 				{
 					$data['department'] = $department->name;
 				}
+			}
+
+			$data['use'] = 'show';
+			
+			if ($this->hasPermision())
+			{
+				
+				$data['all_departments'] = $departments;
+				$data['use'] = 'edit';
+				$this->global['nav_links'] = array('Products');
 			}
 	
 			$this->loadViews("product", $this->global, $data, NULL);

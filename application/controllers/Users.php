@@ -10,13 +10,9 @@ class Users extends BaseController {
 	{
 		parent::__construct();
 
-		$this->isLoggedIn();
-
 		$this->load->library('form_validation');
 		
 		$this->load->model('users_model');
-
-		$this->global['pageTitle'] = 'Store';
 	}
 
 

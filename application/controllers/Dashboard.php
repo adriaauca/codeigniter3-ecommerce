@@ -9,10 +9,6 @@ class Dashboard extends BaseController {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->global['pageTitle'] = 'Store';
-		
-		$this->isLoggedIn();
 	}
 
 

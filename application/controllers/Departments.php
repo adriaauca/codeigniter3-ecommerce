@@ -10,10 +10,6 @@ class Departments extends BaseController {
 	{
 		parent::__construct();
 
-		$this->global['pageTitle'] = 'Store';
-
-		$this->isLoggedIn();
-
 		$this->load->library('form_validation');
 		
 		$this->load->model('departments_model');
