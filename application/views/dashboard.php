@@ -74,6 +74,51 @@
         } else {
         ?>
 
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner" style=" width:100%; height: 500px !important;">
+                    <div class="carousel-item active">
+                        <img src="https://cdn.pixabay.com/photo/2017/09/09/11/52/t-shirts-2731768_960_720.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block" style="bottom: 0; top:1.25rem;">
+                            <p class="subtitle letter-spacing-3 font-weight-light text-uppercase text-white font-weight-light mb-4 letter-spacing-5">Just arrived</p>
+                            <h2 class="mb-5 display-2 font-weight-bold text-serif" style="line-height:1">Denim Jackets</h2>
+                            <p class="lead  mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <a href="/category" class="btn btn-light">View collection</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://cdn.pixabay.com/photo/2015/10/12/15/18/clothing-store-984396_960_720.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block" style="bottom: 0; top:1.25rem;">
+                            <h2 class="mb-4 display-2 text-uppercase font-weight-bold" style="line-height:1">Skeleton Tees</h2>
+                            <p class="lead  mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <a href="/category-2" class="btn btn-light">Start shopping</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://cdn.pixabay.com/photo/2014/08/26/21/48/jeans-428613_960_720.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block" style="bottom: 0; top:1.25rem;">
+                            <p class="subtitle letter-spacing-3 font-weight-light text-uppercase font-weight-light mb-4 letter-spacing-5">Our bestseller</p>
+                            <h2 class="mb-5 display-1 font-weight-bold text-serif" style="line-height:1">Skinny Jeans</h2>
+                            <a href="/category" class="btn btn-light">View Collection</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <br><br>
+
             <h1 class="h2">Today's Deals</h1>
             <hr><br>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-3">

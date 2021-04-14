@@ -20,6 +20,18 @@ class Dashboard extends BaseController {
 		{
 			$this->load->model('products_model');
 			$data['products'] = $this->products_model->get_products();
+
+
+			$departments = array('Dashboard', "Today's Deals",'Popular products');
+
+			// $this->load->model('departments_model');
+			// $all_departments = $this->departments_model->get_departments();
+
+			// foreach ($all_departments as $department)
+			// {
+			// 	$departments[] = $department;
+			// }
+			$this->global['nav_links'] = $departments;
 		}
 		else
 		{
