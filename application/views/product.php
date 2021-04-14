@@ -3,6 +3,7 @@
     if ($use == 'show' || $use == 'edit')
     {
         $max_quantity = $product->quantity;
+        $_SESSION["productID"] = $product->id;
     }
 ?>
 
@@ -13,6 +14,7 @@
         {
         ?>
             max_quantity = "<?php echo $max_quantity;?>";
+            product_name = "<?php echo str_replace(' ', '_', $product->name);?>";
         <?php
         }
     ?>
@@ -40,7 +42,10 @@
             }
             if ($use == 'show')
             {
-                echo '<br><br>';
+                ?>
+                    <br>
+                    <form method="POST" action="<?php echo base_url(); ?>chart/store">
+                <?php
             }
         ?>
 
@@ -449,7 +454,7 @@
                         if ($use == 'show')
                         {
                             ?>
-                                <button type="button" class="btn btn-light border border-dark btn-md mr-1 mb-2">
+                                <button type="submit" class="btn btn-light border border-dark btn-md mr-1 mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z" />
                                         <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
@@ -493,14 +498,7 @@
             ?>
         </div>
 
-        <?php
-            if ($use == 'create' || $use == 'edit')
-            {
-            ?>
-                </form>
-            <?php
-            }
-        ?>
+        </form>
 
         <?php
             if ($use == 'show')
@@ -588,111 +586,149 @@
                 </div>
                 <div class="row mb-5">
                     <div class="col-12">
-                        <div class="card p-3">
-                            <div class="d-flex justify-content-between align-items-center">
+                        <?php
+                            if (empty($comments))
+                            {
+                            ?>
+                                <div class="card p-3">
+                                    * No comments yet ...
+                                </div>
+                            <?php
+                            }
+                            else
+                            {
+                                foreach ($comments as $comment)
+                                {
+                                    $today = date_create(date('Y-m-d'));
+                                    $date = date_create($comment->date);
+                                    $datediff = date_diff($today,$date);
+                                    $result = intval($datediff->format("%a")) == 0 ? 'Today' : intval($datediff->format("%a")).' days ago';
+                            ?>
+                                    <div class="card p-3">
+                                        <div class="d-flex justify-content-between align-items-center">
 
-                                <div class="d-flex flex-row align-items-center">
-                                    <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="rounded-circle mr-2">
-                                    <span class="mx-3">
-                                        <small class="fw-bold text-primary">james_olesenn</small>
-                                    </span>
-                                </div>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <span class="mx-3">
+                                                    <small class="fw-bold text-primary"><?php echo $comment->user_name; ?></small>
+                                                </span>
+                                            </div>
 
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between mt-2 align-items-center">
-                                <div class="px-4">
-                                    Very good laptop quality price
-                                </div>
-                            </div>
-                            <p class="text-end"><small>2 days ago</small></p>
-                        </div>
-                        <div class="card p-3">
-                            <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                            <?php
+                                                for ($x = 0; $x < 5; $x++) {
+                                                    if ($x < intval($comment->stars))
+                                                    {
+                                                    ?>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                        </svg>
+                                                    <?php
+                                                    }
+                                                    else
+                                                    {
+                                                    ?>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                                        </svg>
+                                                    <?php
+                                                    }
+                                                }
+                                            ?>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2 align-items-center">
+                                            <div class="px-4">
+                                                <?php echo $comment->review; ?>
+                                            </div>
+                                        </div>
+                                        <p class="text-end"><small><?php echo $result; ?></small></p>
+                                    </div>
+                                <?php
+                                }
+                            }
+                        ?>
 
-                                <div class="d-flex flex-row align-items-center">
-                                    <img src="https://i.imgur.com/C4egmYM.jpg" width="30" class="rounded-circle mr-2">
-                                    <span class="mx-3">
-                                        <small class="fw-bold text-primary">olan_sams</small>
-                                    </span>
-                                </div>
 
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between mt-2 align-items-center">
-                                <div class="px-4">
-                                    Normal laptop, it could be much better
-                                </div>
-                            </div>
-                            <p class="text-end"><small>3 days ago</small></p>
-                        </div>
+                        <?php
+                            if (isset($buyed))
+                            {
+                            ?>
+                                <div class="card p-3">
+                                    <div class="row">
 
-                        <div class="card p-3">
-                            <div class="row">
+                                    <?php
+                                        if (isset($commented) && $commented != FALSE)
+                                        {
+                                            $function = 'Edit';
+                                            $stars = intval($commented->stars);
+                                            $review = $commented->review;
+                                        ?>
+                                            <div class="col-12">
+                                                <h6>Edit your review</h6>
+                                            </div>
 
-                                <div class="col-12">
-                                    <h6>Add a review</h6>
-                                </div>
+                                            <form method="POST" action="<?php echo base_url(); ?>comments/update">
+                                        <?php
+                                        }
+                                        else
+                                        {
+                                            $function = 'Add';
+                                            $stars = 1;
+                                            $review = '';
+                                        ?>
+                                            <div class="col-12">
+                                                <h6>Add a review</h6>
+                                            </div>
 
-                                <div class="col-12 mt-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                    </svg>
-                                </div>
+                                            <form method="POST" action="<?php echo base_url(); ?>comments/store">
+                                        <?php
+                                        }
+                                    ?>
 
-                                <div class="col-12 mt-4">
-                                    <textarea class="form-control" aria-label="With textarea" placeholder="Your review"></textarea>
-                                </div>
+                                            <div class="col-12 mt-2">
+                                                <?php
+                                                    for ($x = 1; $x <= $stars; $x++)
+                                                    {
+                                                    ?>
+                                                        <svg id="star_<?php echo $x; ?>" onclick="amountStars(<?php echo $x; ?>)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                        </svg>
+                                                    <?php    
+                                                    } 
+                                                    for ($x = $stars + 1; $x <= 5; $x++)
+                                                    {
+                                                    ?>
+                                                        <svg id="star_<?php echo $x; ?>" onclick="amountStars(<?php echo $x; ?>)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                                        </svg>
+                                                    <?php    
+                                                    } 
+                                                ?>
+                                            </div>
 
-                                <div class="col-12 mt-4 text-end">
-                                    <button type="button" class="btn btn-primary">Add</button>
+                                            <input type="hidden" id="stars" name="stars" value="1">
+
+                                            <div class="col-12 mt-4">
+                                                <textarea class="form-control" aria-label="With textarea" name="review" placeholder="Your review"><?php echo $review; ?></textarea>
+                                            </div>
+
+                                            <div class="col-12 mt-4 text-end">
+                                                <?php
+                                                    if (isset($commented) && $commented != FALSE)
+                                                    {
+                                                    ?>
+                                                        <button type="button" class="btn btn-danger" onclick="removeComment()">Delete</button>
+                                                    <?php
+                                                    }
+                                                ?>
+                                                <button type="submit" class="btn btn-primary"><?php echo $function; ?></button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            <?php
+                            }
+                        ?>
                     </div>
                 </div>
             <?php
@@ -706,6 +742,8 @@
     {
     ?>
         <script src="<?php echo base_url(); ?>assets/js/addDeleteQuantityInputNumber.js" type="text/javascript"></script>
+        <script src="<?php echo base_url(); ?>assets/js/amountStars.js" type="text/javascript"></script>
+        <script src="<?php echo base_url(); ?>assets/js/product.js" type="text/javascript"></script>
     <?php
     }
 ?>
