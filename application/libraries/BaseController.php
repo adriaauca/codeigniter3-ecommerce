@@ -35,9 +35,9 @@ class BaseController extends CI_Controller
     }
 
 
-    public function hasPermision()
+    public function hasPermision($role)
 	{
-		if (ROLE_ADMIN == $this->session->userdata('fk_role_id'))
+		if ($role == $this->session->userdata('fk_role_id'))
 		{
 			return TRUE;
 		}
