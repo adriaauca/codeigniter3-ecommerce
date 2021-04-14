@@ -21,9 +21,10 @@ $route['register/store'] = 'users/store';
 $route['login'] = 'users/login';
 $route['login/validate'] = 'users/validate';
 
+$route['chart'] = 'chart';
+$route['chart/store'] = 'chart/store';
 
-
-
+$route['checkout'] = 'checkout';
 
 $route['profile'] = 'users/profile';
 $route['profile/edit'] = 'users/edit';
