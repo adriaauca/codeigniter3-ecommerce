@@ -13,11 +13,6 @@ class Products extends BaseController {
 		$this->load->library('form_validation');
 		
 		$this->load->model('products_model');
-
-		// if (!$this->hasPermision())
-		// {
-		// 	redirect('');
-		// }
 	}
 
 
@@ -129,13 +124,25 @@ class Products extends BaseController {
 			}
 
 			$data['use'] = 'show';
+
+			$this->load->model('comments_model');
+			$data['comments'] = $this->comments_model->show($data['product']->id);
 			
-			if ($this->hasPermision())
+			if ($this->hasPermision(ROLE_ADMIN))
 			{
-				
 				$data['all_departments'] = $departments;
 				$data['use'] = 'edit';
 				$this->global['nav_links'] = array('Products');
+			}
+
+			if ($this->hasPermision(ROLE_CONSUMER))
+			{
+				// CHECK IF USER HAS BUYED PREVIOUSLY THE PORDUCT
+				$this->load->model('orders_model');
+				$data['buyed'] = $this->orders_model->check_if_user_has_buyed_the_product($data['product']->id, $this->session->userdata('id'));
+
+				// CHECK IF USER HAS COMMENTED PREVIOUSLY THE PORDUCT
+				$data['commented'] = $this->orders_model->check_if_user_has_commented_the_product($data['product']->id, $this->session->userdata('id'));
 			}
 	
 			$this->loadViews("product", $this->global, $data, NULL);
