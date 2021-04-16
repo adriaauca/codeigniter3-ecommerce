@@ -24,18 +24,14 @@ class Dashboard extends BaseController {
 
 			$departments = array('Dashboard', "Today's Deals",'Popular products');
 
-			// $this->load->model('departments_model');
-			// $all_departments = $this->departments_model->get_departments();
+			$this->load->model('departments_model');
+			$all_departments = $this->departments_model->show_all();
 
-			// foreach ($all_departments as $department)
-			// {
-			// 	$departments[] = $department;
-			// }
+			foreach ($all_departments as $department)
+			{
+				array_push($departments, $department->name);
+			}
 			$this->global['nav_links'] = $departments;
-		}
-		else
-		{
-			$this->global['nav_links'] = array('Dashboard','Products', 'Users', 'Sells', 'Historic');
 		}
 
 		$this->loadViews("dashboard", $this->global, $data, NULL);

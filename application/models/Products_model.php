@@ -42,6 +42,15 @@ class Products_model extends CI_Model
     }
 
 
+    public function show_matches($search)
+	{
+        $this->db->select('id, name, model, price, last_price, discount, discount_status, status');
+        $this->db->like('name', $search);
+        $this->db->where('status', 1);
+        return $this->db->get('products')->result();
+    }
+
+
     public function update_quantity($product_id, $quantity)
 	{
         $this->db->set('quantity', 'quantity-'.$quantity.'', false);
@@ -49,5 +58,20 @@ class Products_model extends CI_Model
         $this->db->update('products');
 
 		return TRUE;
+	}
+
+
+    public function destroy($id)
+	{
+		return $this->db->delete('products', array('id' => $id));
+	}
+
+
+    public function check_if_exist($id)
+	{
+        $this->db->select('*');
+        $this->db->from('products');
+        $this->db->where('id', $id);
+        return $this->db->get()->row();
 	}
 }
