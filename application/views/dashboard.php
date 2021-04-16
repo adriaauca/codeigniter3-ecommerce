@@ -8,7 +8,20 @@
                 ?>";
 </script>
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<?php 
+    if(isset($headerInfo['nav_links']))
+    {
+?>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<?php
+    }
+    else
+    {
+?>
+    <main class="col-11">
+<?php
+    }
+?>
     <div class="container">
 
         <?php
@@ -18,6 +31,18 @@
             <h1 class="h2">Dashboard</h1>
             <hr><br>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-3">
+                <div class="col text-center">
+                    <a class="card text-center" href="<?php echo base_url() ?>departments" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+                                <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
+                            </svg>
+                            </h5>
+                            <p class="card-text">Departments</p>
+                        </div>
+                    </a>
+                </div>
                 <div class="col text-center">
                     <a class="card text-center" href="<?php echo base_url() ?>products" style="width: 18rem;">
                         <div class="card-body">
