@@ -1,7 +1,9 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Template extends CI_Controller {
+defined('BASEPATH') OR exit('No direct script access allowed');
+require APPPATH . '/libraries/BaseController.php';
+
+class Template extends BaseController {
 
 
 	// public function __construct()
