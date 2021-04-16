@@ -13,41 +13,7 @@
 
     <div class="container mt-5 mb-5">
 
-        <div class="row">
-            <div class="col-12 mt-4">
-
-                <?php
-
-                    $this->load->helper('form');
-
-                    if ($this->session->flashdata('error'))
-                    {
-                        echo '
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                '.$this->session->flashdata('error').'
-                            </div>
-                        ';
-                    }
-
-                    if ($this->session->flashdata('success'))
-                    {
-                        echo '
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                '.$this->session->flashdata('success').'
-                            </div>
-                        ';
-                    }
-                ?>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include 'flashdata.php';?>
 
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
