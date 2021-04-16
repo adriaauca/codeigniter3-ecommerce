@@ -15,11 +15,17 @@ $route['translate_uri_dashes'] = FALSE;
 | USER MADE ROUTES
 | -------------------------------------------------------------------------
 */
-$route['register'] = 'users/create';
-$route['register/store'] = 'users/store';
+$route['register'] = 'register';
+$route['register/store'] = 'register/store';
 
-$route['login'] = 'users/login';
-$route['login/validate'] = 'users/validate';
+$route['login'] = 'login';
+$route['login/validate'] = 'login/validate';
+
+$route['logout'] = 'login/logout';
+
+$route['users'] = 'users';
+$route['users/store'] = 'users/store';
+$route['users/update'] = 'users/update';
 
 $route['chart'] = 'chart';
 $route['chart/store'] = 'chart/store';
@@ -29,7 +35,9 @@ $route['checkout'] = 'checkout';
 $route['profile'] = 'users/profile';
 $route['profile/edit'] = 'users/edit';
 
-$route['logout'] = 'users/logout';
+$route['departments'] = 'departments';
+$route['departments/store'] = 'departments/store';
+$route['departments/update'] = 'departments/update';
 
 $route['products'] = 'products';
 $route['products/create'] = 'products/create';
