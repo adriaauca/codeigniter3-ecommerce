@@ -43,8 +43,8 @@ class Chart extends BaseController {
 					else
 					{
 						$data = array(
-							'fk_id_product'		=>	$product_id,
-							'fk_id_user'		=>	$user_id,
+							'fk_product_id'		=>	$product_id,
+							'fk_user_id'		=>	$user_id,
 							'quantity'			=>	$quantity,
 						);
 
@@ -93,8 +93,8 @@ class Chart extends BaseController {
 				else
 				{
 					$data = array(
-						'fk_id_product'		=>	$product_id,
-						'fk_id_user'		=>	$user_id,
+						'fk_product_id'		=>	$product_id,
+						'fk_user_id'		=>	$user_id,
 						'quantity'			=>	$quantity,
 					);
 	
