@@ -26,6 +26,9 @@
     <!-- CSS - DATATABLES - BUTTONS -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/plugins/datatables-buttons/css/buttons.bootstrap5.min.css" />
 
+    <!-- CSS - SELECT2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- JS - JQUERY -->
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
 
@@ -58,7 +61,7 @@
             }
             ?>
 
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search ..." aria-label="Search">
+            <input class="form-control form-control-dark w-100" type="text" placeholder="Search ..." aria-label="Search" id="inputSearch">
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
                     <a class="nav-link" href="<?php echo base_url() ?>chart">
