@@ -19,6 +19,13 @@ class Users_model extends CI_Model
     }
 
 
+    public function show_all()
+	{
+        $this->db->select('*');
+        return $this->db->get('users')->result();
+    }
+
+
     public function validate($email, $password)
 	{
 
@@ -49,4 +56,41 @@ class Users_model extends CI_Model
             return 'Wrong Email Address.';
         }
     }
+
+
+    public function update($id, $name, $email, $password, $status)
+	{
+        if ($name != NULL)
+        {
+            $this->db->set('name', $name);
+        }
+        if ($email != NULL)
+        {
+            $this->db->set('email', $email);
+        }
+        if ($password != NULL)
+        {
+            $this->db->set('password', $password);
+        }
+        $this->db->set('status', $status);
+        $this->db->where('id', $id);
+        $this->db->update('users');
+
+		return $this->db->affected_rows();
+	}
+
+
+    public function destroy($id)
+	{
+		return $this->db->delete('users', array('id' => $id));
+	}
+
+
+    public function check_if_exist($id)
+	{
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('id', $id);
+        return $this->db->get()->row();
+	}
 }

@@ -18,13 +18,10 @@ class Users extends BaseController {
 
 	public function index()
 	{
+		$data = [];
 
-	}
-
-
-	public function create()
-	{
-		$this->load->view('register');
+		$data['users'] = $this->users_model->show_all();
+		$this->loadViews("users", $this->global, $data, NULL);
 	}
 
 
@@ -56,40 +53,80 @@ class Users extends BaseController {
 			{
 				$this->session->set_flashdata('error', 'User not added correctly!');
 			}
-
-			redirect('register');
 		}
-		else {
-			$this->index();
-		}
+		
+		redirect('users');
 	}
 
 
-	public function show($id)
-	{
-		$data = [];
+	public function show_all()
+    {
+        $data = [];
 
-		$data['user'] = $this->users_model->show($id);
+		$data['data'] = $this->users_model->show_all();
 
-		$this->loadViews("user", $this->global, $data, NULL);
-	}
-
-
-	public function edit()
-	{
-
-	}
+		echo json_encode($data);
+    }
 
 	
 	public function update()
 	{
+		$id = $this->input->post('id');
+		$name = $this->input->post('name');
+		$email = $this->input->post('email');
+		$password = $this->input->post('password');
+		$status = $this->input->post('status');
 
+		if ($password != NULL)
+        {
+            $password = password_hash($password, PASSWORD_DEFAULT);
+        }
+		if (!isset($status))
+		{
+			$status = 0;
+		}
+
+		// CHECK IF DEPARTMENT EXIST
+		$exist = $this->users_model->check_if_exist($id);
+
+		if (!empty($exist))
+		{
+			$updated = $this->users_model->update($id, $name, $email, $password, $status);
+
+			if ($updated > 0)
+			{
+				$this->session->set_flashdata('success', 'User updated correctly!');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'User not updated correctly!');
+			}
+		}
+
+		redirect('users');
 	}
 
 
 	public function destroy()
 	{
+		$id = $this->input->post('id');
 
+		// CHECK IF DEPARTMENT EXIST
+		$exist = $this->users_model->check_if_exist($id);
+
+		if (!empty($exist))
+		{
+			$deleted = $this->users_model->destroy($id);
+
+			if ($deleted)
+			{
+				$this->session->set_flashdata('success', 'User deleted correctly!');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'User not deleted correctly!');
+			}
+		}
 	}
 
 
@@ -104,47 +141,5 @@ class Users extends BaseController {
 		$data['user'] = $this->users_model->show($id);
 
 		$this->loadViews("profile", $this->global, $data, NULL);
-	}
-
-
-	public function login()
-	{
-		$this->load->view('login');
-	}
-
-
-	public function validate()
-	{
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required');
-
-		if($this->form_validation->run())
-		{
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-
-			$result = $this->users_model->validate($email, $password);
-
-			if (empty($result))
-			{
-				redirect('');
-			}
-			else
-			{
-				$this->session->set_flashdata('error', $result);
-				$this->login();
-			}
-		}
-		else {
-			$this->login();
-		}
-	}
-
-
-	function logout()
-    {
-		$this->session->sess_destroy();
-		
-		redirect ('');
 	}
 }
