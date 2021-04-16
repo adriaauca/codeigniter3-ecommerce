@@ -18,7 +18,6 @@ class Products extends BaseController {
 
 	public function index()
 	{
-		$this->global['nav_links'] = array('Dashboard','Products', 'Users', 'Sells', 'Historic');
 		$this->loadViews("products", $this->global, NULL, NULL);
 	}
 
@@ -27,10 +26,8 @@ class Products extends BaseController {
 	{
 		$data = [];
 
-		$this->global['nav_links'] = array('Products');
-
 		$this->load->model('departments_model');
-		$data['all_departments'] = $this->departments_model->get_departments();
+		$data['all_departments'] = $this->departments_model->show_all();
 		$data['use'] = 'create';
 
 		$this->loadViews("product", $this->global, $data, NULL);
@@ -109,7 +106,7 @@ class Products extends BaseController {
 		$this->global['nav_links'] = array('Product','Information', 'Details', 'Related Products', 'Comments');
 
 		$this->load->model('departments_model');
-		$departments = $this->departments_model->get_departments();
+		$departments = $this->departments_model->show_all();
 
 		$data['product'] = $this->products_model->show($name);
 
@@ -132,7 +129,7 @@ class Products extends BaseController {
 			{
 				$data['all_departments'] = $departments;
 				$data['use'] = 'edit';
-				$this->global['nav_links'] = array('Products');
+				$this->global['nav_links'] = null;
 			}
 
 			if ($this->hasPermision(ROLE_CONSUMER))
@@ -168,17 +165,77 @@ class Products extends BaseController {
 
 	public function destroy()
 	{
+		$id = $this->input->post('id');
 
+		// CHECK IF DEPARTMENT EXIST
+		$exist = $this->products_model->check_if_exist($id);
+
+		if (!empty($exist))
+		{
+			$deleted = $this->products_model->destroy($id);
+
+			if ($deleted)
+			{
+				$this->session->set_flashdata('success', 'Product deleted correctly!');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'Product not deleted correctly!');
+			}
+		}
 	}
 
 
 	public function show_all()
     {
-
         $data = [];
 
 		$data['data'] = $this->products_model->show_all();
 
 		echo json_encode($data);
+    }
+
+
+	public function show_matches()
+    {
+        $search = $this->input->post('search');
+
+		$result = $this->products_model->show_matches($search);
+
+		if ($result)
+		{
+			foreach ($result as $product)
+			{
+				echo '
+					<div class="col text-center">
+						<a href="' . str_replace(' ', '_', $product->name) . '" class="card">';
+					if ($product->discount_status == 1) {
+						echo        '
+								<div class="promo-label">
+									<span class="promocion">Promoción</span>
+									<div class="discount">' . $product->discount . '%</div>
+								</div>';
+					}
+					echo            '<img src="" class="card-img-top product-img" alt="' . strtolower(str_replace(' ', '_', $product->name)) . '_img">
+							<div class="card-body">
+								<span class="card-text title">' . $product->name . '</span>
+								<span class="description">
+									<div class="price-layer">';
+					if ($product->discount_status == 1) {
+						echo               '<div class="old">' . $product->last_price . '€</div>';
+					}
+					echo '              </div>
+									<div class="actual">' . $product->price . '€</div>
+								</span>
+							</div>
+						</a>
+					</div>
+				';
+			}
+		}
+		else{
+			
+			print "1";
+		}
     }
 }

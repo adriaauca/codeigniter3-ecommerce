@@ -8,41 +8,42 @@
                 ?>";
 </script>
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<?php 
+    if(isset($headerInfo['nav_links']))
+    {
+?>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<?php
+    }
+    else
+    {
+?>
+    <main class="col-11">
+<?php
+    }
+?>
     <div class="container">
 
+        <?php include 'flashdata.php';?>
+        
         <div class="row">
             <div class="col-6">
                 <h1 class="h2">Products</h1>
             </div>
             <div class="col-6 text-end">
-                <a href="<?php echo base_url(); ?>products/create" role="button" class="btn btn-info">Create Product</a>
+                <a href="<?php echo base_url(); ?>products/create" role="button" class="btn btn-info">Create</a>
             </div>
         </div>
 
         <hr><br>
-        <div class="row mb-3">
-            <div class="col-12">
-                <h4 class="mb-3">Update all the Products</h4>
-                <small class="text-muted">Select which camp would you like to update to all the products at once.</small>
-
-                <div class="card-body">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Recipient's username">
-                        <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" placeholder="Recipient's username">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Update!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
         <div class="row">
             <div class="col-12">
-                <h4 class="mb-3">Open Product</h4>
-                <small class="text-muted">Once inside, you can modify or delete the selected product.</small>
+                <h4 class="mb-3">Search <button type="button" class="btn btn-secondary" onclick="insertButtons('Products')">Buttons</button></h4>
 
                 <div class="card-body">
+                    <div id="table_btn" class="my-3"></div>
                     <table id="Products" class="table table-hover table-striped dataTable">
                         <thead>
                             <tr>
@@ -56,6 +57,7 @@
                                 <td>Disc. Status</td>
                                 <td>Status</td>
                                 <td>Department</td>
+                                <td>Options</td>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -71,6 +73,7 @@
                                 <td>Disc. Status</td>
                                 <td>Status</td>
                                 <td>Department</td>
+                                <td>Options</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -82,3 +85,4 @@
 
 <!-- JS -->
 <script src="<?php echo base_url(); ?>assets/js/products.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/js/insertButtons.js" type="text/javascript"></script>
