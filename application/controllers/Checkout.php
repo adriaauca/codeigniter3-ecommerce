@@ -30,7 +30,14 @@ class Checkout extends BaseController {
 
 		$data['total_amount'] = $this->chart_model->sum_total($this->session->userdata('id'));
 
-		$this->loadViews("checkout", $this->global, $data, NULL);
+		if ($data['total_amount'][0]->total_amount > 0)
+		{
+			$this->loadViews("checkout", $this->global, $data, NULL);
+		}
+		else
+		{
+			redirect('');
+		}
 	}
 
 
@@ -68,6 +75,7 @@ class Checkout extends BaseController {
 
 
 			// CHECKOUT ~ STORE
+			$today_date = date('Y-m-d');
 			$checkout_data = array(
 				'first_name'		=>	$this->input->post('firstName'),
 				'last_name'			=>	$this->input->post('lastName'),
@@ -76,6 +84,7 @@ class Checkout extends BaseController {
 				'city'				=>	$this->input->post('city'),
 				'phone'				=>	$this->input->post('phone'),
 				'country'			=>	$this->input->post('country'),
+				'date'				=>	$today_date,
 				'fk_user_id'		=>	$user_id,
 				'fk_credit_card_id'	=>	$credit_card_id,
 			);
